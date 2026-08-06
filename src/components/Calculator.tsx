@@ -60,7 +60,7 @@ export default function Calculator() {
               Услуга
             </span>
           </legend>
-          <div class="grid gap-2 sm:grid-cols-2">
+          <div class="grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label="Услуга">
             {calcServices.map((s) => (
               <Option
                 key={s.id}
@@ -81,7 +81,7 @@ export default function Calculator() {
               Тип кузова
             </span>
           </legend>
-          <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <div class="grid grid-cols-2 gap-2 sm:grid-cols-4" role="radiogroup" aria-label="Тип кузова">
             {calcBodies.map((b) => (
               <Option
                 key={b.id}
@@ -103,7 +103,7 @@ export default function Calculator() {
               Состояние
             </span>
           </legend>
-          <div class="grid gap-2 sm:grid-cols-3">
+          <div class="grid gap-2 sm:grid-cols-3" role="radiogroup" aria-label="Состояние">
             {calcConditions.map((c) => (
               <Option
                 key={c.id}
@@ -124,7 +124,7 @@ export default function Calculator() {
               Дополнения
             </span>
           </legend>
-          <div class="grid gap-2 sm:grid-cols-3">
+          <div class="grid gap-2 sm:grid-cols-3" role="group" aria-label="Дополнения">
             {calcAddons.map((a) => (
               <Option
                 key={a.id}

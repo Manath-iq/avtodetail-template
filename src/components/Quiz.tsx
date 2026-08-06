@@ -76,7 +76,7 @@ export default function Quiz() {
               </span>
             </div>
 
-            <div class="grid gap-2 sm:grid-cols-2">
+            <div class="grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label={q.title}>
               {q.options.map((o) => {
                 const active = answers[q.id] === o.id;
                 return (
