@@ -1,11 +1,26 @@
 ---
 import { equipment } from '../config/client';
+import EquipmentPhoto from './EquipmentPhoto.astro';
 ---
 
 <section id="equipment" class="on-dark section relative overflow-hidden">
   <div class="paper-grid-dark pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
+  <!-- Кадр инструмента: доказательство уровня без слова «премиум» -->
   <div class="shell relative">
+    <div
+      class="relative mb-10 aspect-[16/9] w-full overflow-hidden rounded-[var(--radius-card)] border border-white/10 sm:aspect-[21/9] lg:aspect-[3/1]"
+      data-anim
+    >
+      <EquipmentPhoto />
+      <div
+        class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(17,20,24,0.65),transparent_45%)]"
+        aria-hidden="true"
+      >
+      </div>
+      <p class="stamp absolute bottom-4 left-5 !text-white/55">Инструментальная зона · демо-кадр</p>
+    </div>
+
     <div class="max-w-[62ch]">
       <div class="sec-label" data-anim>
         <span class="stamp">Поз. 09</span>

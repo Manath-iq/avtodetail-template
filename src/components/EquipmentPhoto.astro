@@ -1,0 +1,21 @@
+---
+import { Picture } from 'astro:assets';
+import tools from '../assets/photos/eq-tools.webp';
+
+/**
+ * Широкий кадр инструмента для блока 9 «Оборудование и детали».
+ * Демо-ассет: без людей, брендов, читаемых надписей и шкал (раздел 6).
+ */
+---
+
+<Picture
+  src={tools}
+  alt="Инструментальная стена и стол с ключами, головками, штангенциркулем и толщиномером"
+  formats={['avif']}
+  fallbackFormat="webp"
+  widths={[640, 1100, 1600]}
+  sizes="(min-width: 1360px) 1360px, 100vw"
+  loading="lazy"
+  decoding="async"
+  class="h-full w-full object-cover"
+/>
