@@ -36,10 +36,11 @@ jobs:
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
-        with:
-          # Включает Pages в настройках репозитория, если он ещё не включён,
-          # чтобы первый деплой не требовал ручного шага в UI.
-          enablement: true
+        # Требуется разовая настройка репозитория:
+        # Settings → Pages → Build and deployment → Source: GitHub Actions.
+        # Включить Pages из workflow (enablement: true) нельзя — у GITHUB_TOKEN
+        # нет прав administration: write, вызов падает с «Resource not accessible
+        # by integration».
 
       - name: Type check
         run: npx astro check
