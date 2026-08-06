@@ -1,5 +1,5 @@
 ---
-import { client } from '../config/client';
+import { client, orderSheetDemo } from '../config/client';
 import { waLink, genericMessages } from '../lib/wa';
 import Wa from './icons/Wa.astro';
 
@@ -14,11 +14,7 @@ interface Props {
 }
 const { compact = false, class: klass = '' } = Astro.props;
 
-const rows = [
-  { no: '01', name: 'Диагностика ходовой части', time: '40 мин', price: '1 500' },
-  { no: '02', name: 'Замена стоек стабилизатора, 2 шт.', time: '1 ч 20 мин', price: '4 800' },
-  { no: '03', name: 'Сход-развал с распечаткой', time: '40 мин', price: '2 400' },
-];
+const sheet = orderSheetDemo;
 const wa = waLink(genericMessages.hero);
 ---
 
@@ -38,11 +34,11 @@ const wa = waLink(genericMessages.hero);
       <div class="flex items-start justify-between gap-4" data-sheet-row>
         <div>
           <p class="stamp">Заказ-наряд</p>
-          <p class="data mt-1 text-[1.05rem] font-semibold tracking-tight">№ 000-241</p>
+          <p class="data mt-1 text-[1.05rem] font-semibold tracking-tight">{sheet.number}</p>
         </div>
         <div class="text-right">
           <p class="stamp">Пост / мастер</p>
-          <p class="data mt-1 text-[1.05rem] font-semibold tracking-tight">03 / М-7</p>
+          <p class="data mt-1 text-[1.05rem] font-semibold tracking-tight">{sheet.post}</p>
         </div>
       </div>
 
@@ -51,11 +47,11 @@ const wa = waLink(genericMessages.hero);
       <div class="grid grid-cols-2 gap-3" data-sheet-row>
         <div>
           <p class="stamp">Авто</p>
-          <p class="mt-1 text-[0.9rem]">Кроссовер, 2019 г.</p>
+          <p class="mt-1 text-[0.9rem]">{sheet.car}</p>
         </div>
         <div class="text-right">
           <p class="stamp">Принят</p>
-          <p class="data mt-1 text-[0.9rem]">09:40</p>
+          <p class="data mt-1 text-[0.9rem]">{sheet.acceptedAt}</p>
         </div>
       </div>
 
@@ -71,7 +67,7 @@ const wa = waLink(genericMessages.hero);
 
       <ul class="flex flex-col">
         {
-          rows.map((row) => (
+          sheet.rows.map((row) => (
             <li
               class="grid grid-cols-[2.2rem_1fr] items-baseline gap-x-2 gap-y-1 border-t border-dashed border-[var(--color-line)] py-2.5 first:border-t-0 sm:grid-cols-[2.2rem_1fr_5.5rem_5rem]"
               data-sheet-row
@@ -95,10 +91,10 @@ const wa = waLink(genericMessages.hero);
       <div class="flex items-end justify-between gap-4" data-sheet-row>
         <div>
           <p class="stamp">Итого по наряду</p>
-          <p class="mt-1 text-[0.8rem] text-[var(--color-ink-mute)]">Срок: 2 ч 40 мин</p>
+          <p class="mt-1 text-[0.8rem] text-[var(--color-ink-mute)]">Срок: {sheet.totalTime}</p>
         </div>
         <p class="data text-[1.75rem] font-semibold leading-none tracking-tight">
-          8 700 <span class="text-[1.1rem] text-[var(--color-ink-faint)]">₽</span>
+          {sheet.totalPrice} <span class="text-[1.1rem] text-[var(--color-ink-faint)]">₽</span>
         </p>
       </div>
 

@@ -63,6 +63,25 @@ export const client: ClientConfig = {
   },
 };
 
+/**
+ * Демо-бланк на первом экране (секция 2 «Первый экран»).
+ * Это иллюстрация, а не прайс, но цифры всё равно живут в конфиге:
+ * под нового клиента бланк должен показывать его типовой заказ-наряд.
+ */
+export const orderSheetDemo = {
+  number: '№ 000-241',
+  post: '03 / М-7',
+  car: 'Кроссовер, 2019 г.',
+  acceptedAt: '09:40',
+  rows: [
+    { no: '01', name: 'Диагностика ходовой части', time: '40 мин', price: '1 500' },
+    { no: '02', name: 'Замена стоек стабилизатора, 2 шт.', time: '1 ч 20 мин', price: '4 800' },
+    { no: '03', name: 'Сход-развал с распечаткой', time: '40 мин', price: '2 400' },
+  ],
+  totalPrice: '8 700',
+  totalTime: '2 ч 40 мин',
+};
+
 /** Полоса доверия, секция 3. Значения тянутся из client.proof. */
 export const proofStats: ProofStat[] = [
   { value: client.proof.years, label: 'лет работы', countTo: Number(client.proof.years) },
