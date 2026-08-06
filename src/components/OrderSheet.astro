@@ -1,0 +1,135 @@
+---
+import { client } from '../config/client';
+import { waLink, genericMessages } from '../lib/wa';
+import Wa from './icons/Wa.astro';
+
+/**
+ * Сигнатурный элемент шаблона: заказ-наряд, который собирается на глазах.
+ * На скролле по листу проходит линия-сканер, строки проявляются по очереди,
+ * в конце «закрепляется» кнопкой WhatsApp (спецификация, 3.5).
+ */
+interface Props {
+  compact?: boolean;
+  class?: string;
+}
+const { compact = false, class: klass = '' } = Astro.props;
+
+const rows = [
+  { no: '01', name: 'Диагностика ходовой части', time: '40 мин', price: '1 500' },
+  { no: '02', name: 'Замена стоек стабилизатора, 2 шт.', time: '1 ч 20 мин', price: '4 800' },
+  { no: '03', name: 'Сход-развал с распечаткой', time: '40 мин', price: '2 400' },
+];
+const wa = waLink(genericMessages.hero);
+---
+
+<figure
+  class:list={['order-sheet perf-top relative isolate', klass]}
+  data-order-sheet
+  aria-label="Пример заказ-наряда: перечень работ, срок и стоимость"
+>
+  <div
+    class="relative overflow-hidden rounded-[var(--radius-card)] border border-[var(--color-line)] bg-[#fffdfa] shadow-[0_40px_80px_-60px_rgba(17,20,24,0.75)]"
+  >
+    <div class="paper-grid absolute inset-0 opacity-45" aria-hidden="true"></div>
+    <div class="scanline" data-scanline aria-hidden="true"></div>
+
+    <div class="relative p-5 sm:p-7">
+      <!-- Шапка бланка -->
+      <div class="flex items-start justify-between gap-4" data-sheet-row>
+        <div>
+          <p class="stamp">Заказ-наряд</p>
+          <p class="data mt-1 text-[1.05rem] font-semibold tracking-tight">№ 000-241</p>
+        </div>
+        <div class="text-right">
+          <p class="stamp">Пост / мастер</p>
+          <p class="data mt-1 text-[1.05rem] font-semibold tracking-tight">03 / М-7</p>
+        </div>
+      </div>
+
+      <hr class="rule-dashed my-4" />
+
+      <div class="grid grid-cols-2 gap-3" data-sheet-row>
+        <div>
+          <p class="stamp">Авто</p>
+          <p class="mt-1 text-[0.9rem]">Кроссовер, 2019 г.</p>
+        </div>
+        <div class="text-right">
+          <p class="stamp">Принят</p>
+          <p class="data mt-1 text-[0.9rem]">09:40</p>
+        </div>
+      </div>
+
+      <hr class="rule-dashed my-4" />
+
+      <!-- Строки работ -->
+      <div class="hidden grid-cols-[2.2rem_1fr_5.5rem_5rem] gap-2 pb-2 sm:grid" data-sheet-row>
+        <span class="stamp">Поз.</span>
+        <span class="stamp">Наименование работ</span>
+        <span class="stamp text-right">Срок</span>
+        <span class="stamp text-right">Сумма, ₽</span>
+      </div>
+
+      <ul class="flex flex-col">
+        {
+          rows.map((row) => (
+            <li
+              class="grid grid-cols-[2.2rem_1fr] items-baseline gap-x-2 gap-y-1 border-t border-dashed border-[var(--color-line)] py-2.5 first:border-t-0 sm:grid-cols-[2.2rem_1fr_5.5rem_5rem]"
+              data-sheet-row
+            >
+              <span class="data text-[0.8rem] text-[var(--color-ink-faint)]">{row.no}</span>
+              <span class="text-[0.9rem] leading-snug">{row.name}</span>
+              <span class="data col-start-2 text-[0.8rem] text-[var(--color-ink-mute)] sm:col-start-3 sm:text-right">
+                {row.time}
+              </span>
+              <span class="data col-start-2 row-start-2 text-right text-[0.9rem] font-semibold sm:col-start-4 sm:row-start-1">
+                {row.price}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <hr class="rule-dashed my-3" />
+
+      <!-- Итог -->
+      <div class="flex items-end justify-between gap-4" data-sheet-row>
+        <div>
+          <p class="stamp">Итого по наряду</p>
+          <p class="mt-1 text-[0.8rem] text-[var(--color-ink-mute)]">Срок: 2 ч 40 мин</p>
+        </div>
+        <p class="data text-[1.75rem] font-semibold leading-none tracking-tight">
+          8 700 <span class="text-[1.1rem] text-[var(--color-ink-faint)]">₽</span>
+        </p>
+      </div>
+
+      <div
+        class="mt-4 flex flex-wrap items-center gap-2 rounded-[var(--radius-chip)] bg-[color-mix(in_srgb,var(--color-service)_22%,transparent)] px-3 py-2"
+        data-sheet-row
+      >
+        <span class="stamp !text-[var(--color-coal)]">Гарантия</span>
+        <span class="data text-[0.85rem] font-semibold">{client.proof.guaranteeDays} дней на работы</span>
+      </div>
+
+      {
+        !compact && (
+          <a
+            href={wa}
+            target="_blank"
+            rel="noopener"
+            data-goal="hero_whatsapp_click"
+            class="btn btn-primary mt-4 w-full"
+            data-sheet-row
+            data-sheet-cta
+          >
+            <Wa size={18} />
+            Записаться в WhatsApp
+          </a>
+        )
+      }
+
+      <p class="legal-note mt-3" data-sheet-row>
+        Пример бланка. Точная сумма — после осмотра и фиксации в заказ-наряде.
+      </p>
+    </div>
+  </div>
+</figure>

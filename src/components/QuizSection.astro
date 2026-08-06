@@ -1,0 +1,28 @@
+---
+import Quiz from './Quiz';
+---
+
+<section id="quiz" class="on-dark section relative overflow-hidden">
+  <div class="paper-grid-dark pointer-events-none absolute inset-0" aria-hidden="true"></div>
+  <div
+    class="pointer-events-none absolute -left-32 top-1/3 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-tech)_14%,transparent),transparent_70%)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="shell relative">
+    <div class="max-w-[62ch]">
+      <div class="sec-label" data-anim>
+        <span class="stamp">Поз. 05</span>
+        <span class="stamp !text-white/50">Квиз-подбор</span>
+      </div>
+      <h2 class="text-[length:var(--fs-h2)]" data-anim style="--anim-delay:0.05s">
+        Четыре тапа — и у вас на руках план работ, а не «мы перезвоним»
+      </h2>
+    </div>
+
+    <div class="mt-9" data-anim style="--anim-delay:0.1s">
+      <Quiz client:visible />
+    </div>
+  </div>
+</section>

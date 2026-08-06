@@ -1,0 +1,68 @@
+---
+import { client } from '../config/client';
+import { waLink, genericMessages } from '../lib/wa';
+import Wa from './icons/Wa.astro';
+---
+
+<section id="final" class="on-dark relative overflow-hidden py-[var(--section-gap)]">
+  <div class="paper-grid-dark pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+  <!-- Крупный лист заказ-наряда на фоне -->
+  <div
+    class="pointer-events-none absolute -right-[12%] top-1/2 hidden w-[36rem] -translate-y-1/2 rotate-[-6deg] opacity-[0.07] lg:block"
+    aria-hidden="true"
+  >
+    <svg viewBox="0 0 420 540" fill="none">
+      <rect x="1" y="1" width="418" height="538" rx="24" stroke="#fff" stroke-width="2"></rect>
+      {
+        Array.from({ length: 14 }).map((_, i) => (
+          <path
+            d={`M40 ${86 + i * 32}h${i % 3 === 0 ? 250 : 340}`}
+            stroke="#fff"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-dasharray={i % 4 === 0 ? '0' : '14 10'}
+          />
+        ))
+      }
+      <path d="M40 50h140" stroke="#fff" stroke-width="6" stroke-linecap="round"></path>
+      <rect x="250" y="470" width="130" height="44" rx="18" stroke="#fff" stroke-width="3"></rect>
+    </svg>
+  </div>
+
+  <div class="shell relative">
+    <div class="max-w-[54ch]">
+      <p class="stamp" data-anim>Финальная позиция · {client.city}</p>
+      <h2 class="mt-5 text-[length:var(--fs-h1)]" data-anim style="--anim-delay:0.05s">
+        Напишите, что беспокоит, — и мы соберём план работ, срок и ориентир цены
+      </h2>
+      <p
+        class="mt-5 text-[1.0625rem] leading-relaxed text-white/60"
+        data-anim
+        style="--anim-delay:0.1s"
+      >
+        Достаточно пары фраз и марки авто. Ответим в переписке до 15 минут в рабочее время и скажем,
+        нужен ли осмотр или вопрос закрывается по описанию.
+      </p>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row" data-anim style="--anim-delay:0.15s">
+        <a
+          href={waLink(genericMessages.final)}
+          target="_blank"
+          rel="noopener"
+          data-goal="footer_whatsapp_click"
+          class="btn btn-primary sm:min-w-[13rem]"
+        >
+          <Wa size={18} />
+          Открыть WhatsApp
+        </a>
+        <a href="#quiz" class="btn btn-ghost sm:min-w-[13rem]">Пройти квиз</a>
+      </div>
+
+      <p class="legal-note mt-5 max-w-[46ch]" data-anim style="--anim-delay:0.2s">
+        Нажимая кнопку, вы соглашаетесь с Политикой обработки персональных данных и Согласием на
+        обработку персональных данных.
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,170 @@
+---
+import { client } from '../config/client';
+import SectionHead from './SectionHead.astro';
+import Phone from './icons/Phone.astro';
+
+const spots = [
+  { title: 'Вход и ресепшен', note: 'Приём авто, оформление акта и заказ-наряда' },
+  { title: 'Парковка у ворот', note: '6 мест, заезд не блокирует проезд' },
+  { title: 'Ремзона', note: '4 поста с подъёмниками и рабочим светом' },
+  { title: 'Детейлинг-бокс', note: 'Отдельное помещение с контролем ЛКП' },
+];
+---
+
+<section id="contacts" class="section relative overflow-hidden">
+  <div class="shell">
+    <SectionHead no="08" label="Вживую" title="Реальный адрес, реальный цех, реальные ворота" />
+
+    <div class="mt-9 grid12 items-start">
+      <!-- Карточка адреса, как поле бланка -->
+      <div class="col-span-4 md:col-span-8 lg:col-span-5">
+        <div class="card perf-top relative overflow-hidden p-5 sm:p-6" data-anim>
+          <div class="paper-grid absolute inset-0 opacity-50" aria-hidden="true"></div>
+
+          <div class="relative">
+            <p class="stamp">Адрес</p>
+            <p class="mt-2 font-[var(--font-display)] text-[1.15rem] font-semibold leading-snug tracking-tight">
+              {client.address}
+            </p>
+            <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-ink-mute)]">
+              {client.addressNote}
+            </p>
+
+            <hr class="rule-dashed my-4" />
+
+            <p class="stamp">Режим работы</p>
+            <p class="data mt-2 text-[0.95rem]">{client.workHours}</p>
+
+            <hr class="rule-dashed my-4" />
+
+            <p class="stamp">Телефон</p>
+            <a
+              href={`tel:${client.phoneHref}`}
+              class="data tap mt-2 inline-flex items-center gap-2 text-[1.05rem] font-semibold tracking-tight"
+            >
+              <Phone size={17} />
+              {client.phone}
+            </a>
+
+            <div class="mt-5 flex flex-col gap-2.5 sm:flex-row">
+              <a
+                href={client.mapUrl}
+                target="_blank"
+                rel="noopener"
+                data-goal="map_open"
+                class="btn btn-primary flex-1"
+              >
+                Открыть маршрут
+              </a>
+              <a href={`tel:${client.phoneHref}`} class="btn btn-ghost flex-1">Позвонить</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Схема проезда + точки на объекте -->
+      <div class="col-span-4 md:col-span-8 lg:col-span-7">
+        <div
+          class="card relative overflow-hidden"
+          data-anim
+          style="--anim-delay:0.08s"
+        >
+          <div class="relative aspect-[16/10] w-full bg-[var(--color-graphite)]">
+            <div class="paper-grid-dark absolute inset-0" aria-hidden="true"></div>
+
+            <!-- Обезличенная схема проезда: улицы, въезд, пин -->
+            <svg
+              class="absolute inset-0 h-full w-full"
+              viewBox="0 0 640 400"
+              fill="none"
+              role="img"
+              aria-label={`Схема проезда: ${client.address}`}
+            >
+              <g stroke="#ffffff" stroke-opacity="0.12" stroke-width="1">
+                <path d="M0 90h640M0 190h640M0 300h640M120 0v400M300 0v400M470 0v400"></path>
+              </g>
+              <path
+                d="M0 190h640"
+                stroke="#ffffff"
+                stroke-opacity="0.3"
+                stroke-width="14"
+                stroke-linecap="round"></path>
+              <path
+                d="M300 400V190"
+                stroke="#ffffff"
+                stroke-opacity="0.22"
+                stroke-width="10"
+                stroke-linecap="round"></path>
+              <path
+                d="M300 190 L420 190 L420 118"
+                stroke="#F2C14E"
+                stroke-width="3"
+                stroke-dasharray="9 7"
+                stroke-linecap="round"
+                data-route></path>
+
+              <rect
+                x="368"
+                y="60"
+                width="104"
+                height="58"
+                rx="8"
+                fill="#1F2933"
+                stroke="#ffffff"
+                stroke-opacity="0.22"></rect>
+              <text
+                x="420"
+                y="95"
+                text-anchor="middle"
+                fill="#ffffff"
+                fill-opacity="0.75"
+                font-family="JetBrains Mono, monospace"
+                font-size="13">БОКС</text>
+
+              <g data-map-pin>
+                <path
+                  d="M420 118c0 0-16-19-16-30a16 16 0 1 1 32 0c0 11-16 30-16 30Z"
+                  fill="#D94A3A"></path>
+                <circle cx="420" cy="88" r="5.5" fill="#111418"></circle>
+              </g>
+
+              <text
+                x="24"
+                y="178"
+                fill="#ffffff"
+                fill-opacity="0.4"
+                font-family="JetBrains Mono, monospace"
+                font-size="12"
+                letter-spacing="1.5">ГЛАВНАЯ УЛИЦА</text>
+              <text
+                x="312"
+                y="380"
+                fill="#ffffff"
+                fill-opacity="0.4"
+                font-family="JetBrains Mono, monospace"
+                font-size="12"
+                letter-spacing="1.5">ЗАЕЗД</text>
+            </svg>
+          </div>
+
+          <ul class="grid gap-x-5 gap-y-3.5 border-t border-dashed border-[var(--color-line)] p-5 sm:grid-cols-2">
+            {
+              spots.map((s) => (
+                <li class="flex flex-col gap-0.5">
+                  <span class="text-[0.9375rem] font-medium">{s.title}</span>
+                  <span class="text-[0.8125rem] leading-snug text-[var(--color-ink-faint)]">
+                    {s.note}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <p class="legal-note mt-3" data-anim>
+          Схема условная и показывает порядок заезда. Точный маршрут откроется в картах по кнопке.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

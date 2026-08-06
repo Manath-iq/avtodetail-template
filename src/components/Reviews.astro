@@ -1,0 +1,69 @@
+---
+import { reviews, hasDemoReviews } from '../content/reviews';
+import SectionHead from './SectionHead.astro';
+---
+
+<section id="reviews" class="section">
+  <div class="shell">
+    <SectionHead
+      no="10"
+      label="Отзывы"
+      title="Что пишут после закрытого заказ-наряда"
+      lead="Мы не отбираем «самое приятное» — отбираем то, что отвечает на главный вопрос: не накрутят ли цену и объяснят ли, за что вы платите."
+    />
+
+    {
+      hasDemoReviews && (
+        <p
+          class="mt-5 flex items-start gap-2.5 rounded-[var(--radius-chip)] border border-dashed border-[var(--color-line)] bg-[color-mix(in_srgb,var(--color-service)_12%,transparent)] px-4 py-3 text-[0.875rem] leading-snug text-[var(--color-ink-mute)]"
+          data-anim
+        >
+          <span class="stamp mt-0.5 shrink-0 !text-[var(--color-coal)]">Демо</span>
+          <span>
+            В демо-версии шаблона это обезличенные примеры формулировок, а не отзывы реальных людей.
+            У клиента здесь стоят скриншоты карточек 2ГИС и Яндекса без ретуши.
+          </span>
+        </p>
+      )
+    }
+
+    <div class="scroll-x -mx-[var(--shell-pad)] mt-7 flex gap-4 px-[var(--shell-pad)] pb-4">
+      {
+        reviews.map((r, i) => (
+          <article
+            class="card card-lift flex w-[min(21rem,82vw)] shrink-0 snap-start flex-col gap-4 p-5"
+            data-anim
+            style={`--anim-delay:${(i % 3) * 0.06}s`}
+          >
+            <div class="flex items-center justify-between gap-3">
+              <span class="chip !py-1">{r.source === '2GIS' ? '2ГИС' : 'Яндекс'}</span>
+              {r.rating && (
+                <span class="data flex items-center gap-1 text-[0.8rem] font-semibold">
+                  <svg width="13" height="13" viewBox="0 0 14 14" fill="var(--color-service)" aria-hidden="true">
+                    <path d="M7 .8 8.9 4.7l4.3.6-3.1 3 .7 4.3L7 10.6l-3.8 2 .7-4.3-3.1-3 4.3-.6L7 .8Z" />
+                  </svg>
+                  {r.rating}
+                </span>
+              )}
+            </div>
+
+            <blockquote class="text-[0.9375rem] leading-relaxed">«{r.text}»</blockquote>
+
+            <div class="mt-auto border-t border-dashed border-[var(--color-line)] pt-3">
+              <p class="stamp !normal-case !tracking-normal">{r.author}</p>
+              {r.date && <p class="stamp mt-1 !text-[0.65rem]">{r.date}</p>}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-6 flex flex-wrap items-center gap-3" data-anim>
+      <a href="#quiz" class="btn btn-ghost">Открыть квиз</a>
+      <p class="legal-note max-w-[40ch]">
+        Публикуем отзывы только из открытых карточек организации. Тексты не редактируем и не
+        заказываем.
+      </p>
+    </div>
+  </div>
+</section>

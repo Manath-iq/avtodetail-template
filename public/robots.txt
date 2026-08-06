@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://manath-iq.github.io/avtodetail-template/sitemap.xml

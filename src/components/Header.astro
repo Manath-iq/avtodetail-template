@@ -1,0 +1,121 @@
+---
+import { client } from '../config/client';
+import { waLink, genericMessages } from '../lib/wa';
+import Logo from './Logo.astro';
+import Wa from './icons/Wa.astro';
+import Phone from './icons/Phone.astro';
+
+const nav = [
+  { href: '#services', label: 'Услуги' },
+  { href: '#pricing', label: 'Цены' },
+  { href: '#quiz', label: 'Квиз' },
+  { href: '#contacts', label: 'Контакты' },
+];
+const wa = waLink(genericMessages.header);
+---
+
+<header id="site-header" class="sticky top-0 z-50">
+  <div
+    class="border-b border-[var(--color-line)] bg-[color-mix(in_srgb,var(--color-paper)_88%,transparent)] backdrop-blur-md transition-[padding] duration-300"
+    data-header-shell
+  >
+    <div class="shell flex items-center gap-4 py-3.5 transition-all duration-300" data-header-inner>
+      <a href="#top" class="tap flex shrink-0 items-center gap-2.5" aria-label={`${client.brandName} — наверх`}>
+        <Logo class="h-8 w-8 transition-transform duration-300 md:h-9 md:w-9" />
+        <span class="hidden leading-none sm:block">
+          <span class="block font-[var(--font-display)] text-[0.95rem] font-semibold tracking-tight">
+            {client.brandNameShort}
+          </span>
+          <span class="stamp block pt-1 text-[0.6rem]">{client.tagline}</span>
+        </span>
+      </a>
+
+      <nav class="ml-auto hidden items-center gap-1 lg:flex" aria-label="Основная навигация">
+        {
+          nav.map((item) => (
+            <a
+              href={item.href}
+              class="tap flex items-center rounded-[var(--radius-chip)] px-3 text-[0.9rem] text-[var(--color-ink-mute)] transition-colors hover:bg-[var(--color-paper-deep)] hover:text-[var(--color-ink)]"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="ml-auto flex items-center gap-2 lg:ml-4">
+        <a
+          href={`tel:${client.phoneHref}`}
+          class="tap hidden items-center gap-2 rounded-[var(--radius-chip)] px-3 text-[0.9rem] transition-colors hover:bg-[var(--color-paper-deep)] md:flex"
+        >
+          <Phone size={16} />
+          <span class="data whitespace-nowrap tabular-nums">{client.phone}</span>
+        </a>
+        <a
+          href={wa}
+          target="_blank"
+          rel="noopener"
+          data-goal="hero_whatsapp_click"
+          class="btn btn-primary !min-h-11 !px-4 !py-2.5 !text-[0.875rem]"
+        >
+          <Wa size={17} />
+          <span>Записаться</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Строка якорей для планшета и мобильного: горизонтальная лента -->
+  <div class="border-b border-[var(--color-line)] bg-[color-mix(in_srgb,var(--color-paper)_92%,transparent)] backdrop-blur-md lg:hidden">
+    <nav class="shell scroll-x flex gap-1 py-1.5" aria-label="Разделы страницы">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class="tap flex shrink-0 snap-start items-center rounded-[var(--radius-chip)] px-3 text-[0.875rem] text-[var(--color-ink-mute)]"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href="#calc"
+        class="tap flex shrink-0 snap-start items-center rounded-[var(--radius-chip)] px-3 text-[0.875rem] text-[var(--color-ink-mute)]"
+      >
+        Калькулятор
+      </a>
+      <a
+        href="#faq"
+        class="tap flex shrink-0 snap-start items-center rounded-[var(--radius-chip)] px-3 text-[0.875rem] text-[var(--color-ink-mute)]"
+      >
+        Вопросы
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Компактная шапка на скролле. Без GSAP — дешёвый rAF-throttle.
+  const inner = document.querySelector<HTMLElement>('[data-header-inner]');
+  const shell = document.querySelector<HTMLElement>('[data-header-shell]');
+  if (inner && shell) {
+    let ticking = false;
+    const apply = () => {
+      const compact = window.scrollY > 80;
+      inner.classList.toggle('!py-2', compact);
+      shell.classList.toggle('shadow-[0_10px_30px_-24px_rgba(17,20,24,0.8)]', compact);
+      ticking = false;
+    };
+    addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(apply);
+        }
+      },
+      { passive: true },
+    );
+    apply();
+  }
+</script>

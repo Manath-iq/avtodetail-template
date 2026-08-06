@@ -1,0 +1,76 @@
+---
+import { processSteps } from '../config/client';
+import { waLink, genericMessages } from '../lib/wa';
+import SectionHead from './SectionHead.astro';
+---
+
+<section id="process" class="section">
+  <div class="shell">
+    <SectionHead
+      no="07"
+      label="Как проходит работа"
+      title="Четыре контрольные точки — вы знаете, где машина и что с ней"
+      lead="На каждом шаге есть документ и ваше подтверждение. Ничего не начинается «на словах» и не заканчивается сюрпризом в счёте."
+    />
+
+    <ol class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4" data-process>
+      {
+        processSteps.map((step, i) => (
+          <li
+            class="card card-lift step relative flex flex-col gap-3 p-5"
+            data-anim
+            data-process-step
+            style={`--anim-delay:${i * 0.07}s`}
+          >
+            <div class="flex items-center justify-between gap-3">
+              <span class="data step-no text-[2rem] font-semibold leading-none tracking-tight">
+                {step.no}
+              </span>
+              <span class="step-dot h-2 w-2 rounded-full" aria-hidden="true" />
+            </div>
+
+            <h3 class="font-[var(--font-display)] text-[1.0625rem] font-semibold leading-tight tracking-tight">
+              {step.title}
+            </h3>
+            <p class="text-[0.9375rem] leading-relaxed text-[var(--color-ink-mute)]">{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mt-8 flex flex-wrap items-center gap-3" data-anim>
+      <a
+        href={waLink(genericMessages.price)}
+        target="_blank"
+        rel="noopener"
+        class="btn btn-primary"
+      >
+        Записаться на осмотр
+      </a>
+      <p class="legal-note max-w-[42ch]">
+        Допработы согласуем в переписке до выполнения. Без подтверждения они не выполняются и в счёт
+        не попадают.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .step-no {
+    color: var(--color-line);
+    transition: color 0.35s ease;
+  }
+  .step-dot {
+    background: var(--color-line);
+    transition: background-color 0.35s ease;
+  }
+  .step[data-active] {
+    border-color: color-mix(in srgb, var(--color-metal) 55%, var(--color-line));
+  }
+  .step[data-active] .step-no {
+    color: var(--color-metal);
+  }
+  .step[data-active] .step-dot {
+    background: var(--color-brake);
+  }
+</style>

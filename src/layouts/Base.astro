@@ -1,0 +1,106 @@
+---
+import '../styles/global.css';
+import { client } from '../config/client';
+import { withBase } from '../lib/url';
+import Fonts from '../components/Fonts.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Страница-лендинг получает полный набор schema.org, юридические — нет. */
+  withSchema?: boolean;
+  schema?: unknown[];
+}
+
+const {
+  title = client.seo.title,
+  description = client.seo.description,
+  withSchema = false,
+  schema = [],
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://example.com').href;
+const ogImage = new URL(withBase('og.png'), Astro.site ?? 'https://example.com').href;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#111418" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={withBase('favicon.svg')} />
+
+    <Fonts />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={client.brandName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={client.seo.ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://wa.me" />
+
+    {
+      withSchema &&
+        schema.map((node) => (
+          <script type="application/ld+json" set:html={JSON.stringify(node)} is:inline />
+        ))
+    }
+
+    {
+      client.metrikaId && (
+        <script is:inline define:vars={{ id: client.metrikaId }}>
+          window.__METRIKA_ID__ = id;
+        </script>
+      )
+    }
+
+    <script is:inline>
+      document.documentElement.classList.add('js-ready');
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Перейти к содержимому</a>
+    <slot />
+
+    {
+      client.metrikaId && (
+        <script is:inline define:vars={{ id: client.metrikaId }}>
+          (function (m, e, t, r, i, k, a) {
+            m[i] =
+              m[i] ||
+              function () {
+                (m[i].a = m[i].a || []).push(arguments);
+              };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < e.scripts.length; j++) {
+              if (e.scripts[j].src === r) return;
+            }
+            (k = e.createElement(t)), (a = e.getElementsByTagName(t)[0]);
+            k.async = 1;
+            k.src = r;
+            a.parentNode.insertBefore(k, a);
+          })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+          window.ym(Number(id), 'init', {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: false,
+          });
+        </script>
+      )
+    }
+  </body>
+</html>

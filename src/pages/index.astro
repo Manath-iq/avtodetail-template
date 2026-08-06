@@ -1,0 +1,133 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import ProofBar from '../components/ProofBar.astro';
+import Services from '../components/Services.astro';
+import QuizSection from '../components/QuizSection.astro';
+import CalcSection from '../components/CalcSection.astro';
+import Process from '../components/Process.astro';
+import Location from '../components/Location.astro';
+import Equipment from '../components/Equipment.astro';
+import Reviews from '../components/Reviews.astro';
+import Pricing from '../components/Pricing.astro';
+import Guarantee from '../components/Guarantee.astro';
+import Faq from '../components/Faq.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Footer from '../components/Footer.astro';
+import MobileBar from '../components/MobileBar.astro';
+
+import { client } from '../config/client';
+import { services } from '../config/services';
+import { faq } from '../content/faq';
+
+const site = Astro.site?.href ?? 'https://example.com/';
+const pageUrl = new URL(Astro.url.pathname, site).href;
+
+/**
+ * schema.org (секция 8):
+ * AutoRepair — автосервисная часть, AutomotiveBusiness — более общий слой,
+ * Service — описание услуг, FAQPage — блок вопросов.
+ */
+const business = {
+  '@context': 'https://schema.org',
+  '@type': ['AutoRepair', 'AutomotiveBusiness'],
+  '@id': `${pageUrl}#business`,
+  name: client.brandName,
+  legalName: client.legalName,
+  url: pageUrl,
+  telephone: client.phoneHref,
+  email: client.email,
+  description: client.seo.description,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: client.address,
+    addressLocality: client.city,
+    addressRegion: client.region,
+    addressCountry: 'RU',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: client.geo.lat,
+    longitude: client.geo.lon,
+  },
+  openingHours: client.workHoursSchema,
+  priceRange: '₽₽',
+  areaServed: { '@type': 'City', name: client.city },
+  hasMap: client.mapUrl,
+  identifier: [
+    { '@type': 'PropertyValue', name: 'ОГРНИП', value: client.ogrn },
+    { '@type': 'PropertyValue', name: 'ИНН', value: client.inn },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Услуги автосервиса и детейлинга',
+    itemListElement: services.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: s.title,
+        description: s.description,
+        serviceType: s.title,
+        provider: { '@id': `${pageUrl}#business` },
+        areaServed: { '@type': 'City', name: client.city },
+      },
+      ...(s.fromPrice
+        ? {
+            priceSpecification: {
+              '@type': 'PriceSpecification',
+              minPrice: s.fromPrice,
+              priceCurrency: 'RUB',
+              valueAddedTaxIncluded: true,
+            },
+          }
+        : {}),
+    })),
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+
+const breadcrumbs = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Главная', item: pageUrl },
+  ],
+};
+---
+
+<Base withSchema schema={[business, faqSchema, breadcrumbs]}>
+  <Header />
+
+  <main id="main">
+    <Hero />
+    <ProofBar />
+    <Services />
+    <QuizSection />
+    <CalcSection />
+    <Process />
+    <Location />
+    <Equipment />
+    <Reviews />
+    <Pricing />
+    <Guarantee />
+    <Faq />
+    <FinalCta />
+  </main>
+
+  <Footer />
+  <MobileBar />
+</Base>
+
+<script>
+  import '../scripts/motion';
+</script>

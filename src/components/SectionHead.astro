@@ -1,0 +1,29 @@
+---
+interface Props {
+  no: string;
+  label: string;
+  title: string;
+  lead?: string;
+  align?: 'left' | 'center';
+}
+const { no, label, title, lead, align = 'left' } = Astro.props;
+---
+
+<div class:list={['max-w-[62ch]', align === 'center' && 'mx-auto text-center']}>
+  <div class="sec-label" data-anim>
+    <span class="stamp">Поз. {no}</span>
+    <span class="stamp !text-[var(--color-ink-mute)]">{label}</span>
+  </div>
+  <h2 class="text-[length:var(--fs-h2)]" data-anim style="--anim-delay:0.05s">{title}</h2>
+  {
+    lead && (
+      <p
+        class="mt-4 text-[1.0625rem] leading-relaxed text-[var(--color-ink-mute)]"
+        data-anim
+        style="--anim-delay:0.1s"
+      >
+        {lead}
+      </p>
+    )
+  }
+</div>

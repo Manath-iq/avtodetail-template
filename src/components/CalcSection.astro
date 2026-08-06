@@ -1,0 +1,21 @@
+---
+import Calculator from './Calculator';
+import SectionHead from './SectionHead.astro';
+---
+
+<section id="calc" class="section relative overflow-hidden">
+  <div class="paper-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true"></div>
+
+  <div class="shell relative">
+    <SectionHead
+      no="06"
+      label="Калькулятор"
+      title="Рассчитайте ориентир стоимости за 20 секунд"
+      lead="Итог обновляется сразу после каждого выбора — без кнопки «Рассчитать» и без перезагрузки страницы."
+    />
+
+    <div class="mt-9" data-anim style="--anim-delay:0.1s">
+      <Calculator client:visible />
+    </div>
+  </div>
+</section>

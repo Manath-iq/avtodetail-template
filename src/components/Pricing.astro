@@ -1,0 +1,72 @@
+---
+import { priceRows } from '../config/pricing';
+import { waLink, genericMessages } from '../lib/wa';
+import { formatPrice } from '../lib/calc';
+import SectionHead from './SectionHead.astro';
+---
+
+<section id="pricing" class="section relative overflow-hidden">
+  <div class="paper-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true"></div>
+
+  <div class="shell relative">
+    <SectionHead
+      no="11"
+      label="Цены и условия"
+      title="Вилка — до звонка, точная сумма — после осмотра"
+      lead="Это не «средняя температура по рынку», а нижние границы наших реальных позиций. Что попадёт в ваш наряд — определяет осмотр, а не телефон."
+    />
+
+    <div class="card mt-9 overflow-hidden" data-anim style="--anim-delay:0.08s">
+      <div class="hidden grid-cols-[1fr_9rem_9rem] gap-4 border-b border-[var(--color-line)] px-5 py-3 sm:grid">
+        <span class="stamp">Наименование</span>
+        <span class="stamp text-right">Единица</span>
+        <span class="stamp text-right">Стоимость</span>
+      </div>
+
+      <ul>
+        {
+          priceRows.map((row) => (
+            <li class="price-row grid grid-cols-1 gap-x-4 gap-y-1 border-b border-dashed border-[var(--color-line)] px-5 py-4 last:border-b-0 sm:grid-cols-[1fr_9rem_9rem] sm:items-baseline">
+              <div>
+                <p class="text-[1rem] font-medium leading-snug">{row.title}</p>
+                <p class="mt-0.5 text-[0.8125rem] leading-snug text-[var(--color-ink-faint)]">
+                  {row.note}
+                </p>
+              </div>
+              <p class="stamp !normal-case !tracking-normal sm:text-right">{row.unit}</p>
+              <p class="data text-[1.05rem] font-semibold tracking-tight sm:text-right">
+                от {formatPrice(row.from)} ₽
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between" data-anim>
+      <p class="legal-note max-w-[52ch]">
+        Информация о стоимости носит информационный характер и может быть уточнена после осмотра
+        автомобиля. Информация на сайте не является публичной офертой.
+      </p>
+      <a
+        href={waLink(genericMessages.price)}
+        target="_blank"
+        rel="noopener"
+        class="btn btn-primary shrink-0"
+      >
+        Расчёт в WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (hover: hover) {
+    .price-row {
+      transition: background-color 0.2s ease;
+    }
+    .price-row:hover {
+      background: color-mix(in srgb, var(--color-service) 10%, transparent);
+    }
+  }
+</style>

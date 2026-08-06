@@ -1,0 +1,76 @@
+---
+import { equipment } from '../config/client';
+---
+
+<section id="equipment" class="on-dark section relative overflow-hidden">
+  <div class="paper-grid-dark pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+  <div class="shell relative">
+    <div class="max-w-[62ch]">
+      <div class="sec-label" data-anim>
+        <span class="stamp">Поз. 09</span>
+        <span class="stamp !text-white/50">Оборудование и детали</span>
+      </div>
+      <h2 class="text-[length:var(--fs-h2)]" data-anim style="--anim-delay:0.05s">
+        Чем именно работаем — и что это даёт вам в заказ-наряде
+      </h2>
+    </div>
+
+    <ul class="mt-9 grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        equipment.map((item, i) => (
+          <li
+            class="equip group relative flex flex-col gap-2 bg-[var(--color-graphite)] p-5 transition-colors duration-300 hover:bg-[color-mix(in_srgb,var(--color-coal)_60%,var(--color-graphite))]"
+            data-anim
+            style={`--anim-delay:${(i % 3) * 0.06}s`}
+          >
+            <span class="stamp">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="font-[var(--font-display)] text-[1.0625rem] font-semibold leading-tight tracking-tight">
+              {item.title}
+            </h3>
+            <p class="text-[0.9rem] leading-relaxed text-white/55">{item.note}</p>
+          </li>
+        ))
+      }
+      <li class="flex flex-col justify-between gap-4 bg-[var(--color-graphite)] p-5">
+        <p class="text-[0.9375rem] leading-relaxed text-white/60">
+          Значения замеров и результаты регулировок попадают в бланк, а не остаются «на словах
+          мастера».
+        </p>
+        <a
+          href="#services"
+          class="tap inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-[var(--color-service)] underline decoration-dotted underline-offset-4"
+        >
+          Смотреть услуги
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M3 7h8M7.5 3.5 11 7l-3.5 3.5"></path>
+          </svg>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* Мягкий zoom на hover — без bounce и без параллакса (спецификация, 3.5). */
+  .equip::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-left: 2px solid transparent;
+    transition: border-color 0.3s ease;
+    pointer-events: none;
+  }
+  @media (hover: hover) {
+    .equip:hover::after {
+      border-left-color: var(--color-metal);
+    }
+    .equip:hover h3 {
+      transform: scale(1.012);
+    }
+  }
+  .equip h3 {
+    transform-origin: left center;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+</style>

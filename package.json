@@ -1,0 +1,31 @@
+{
+  "name": "avtodetail-template",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Лендинг-шаблон для автосервиса и детейлинга. Core / Client config / Customisation.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "build:ci": "astro build",
+    "preview": "astro preview",
+    "og": "node scripts/make-og.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/preact": "^4.1.0",
+    "@tailwindcss/vite": "^4.1.11",
+    "astro": "^5.12.0",
+    "gsap": "^3.13.0",
+    "lenis": "^1.3.4",
+    "preact": "^10.27.0",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.8.3",
+    "vite": "6.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2"
+  }
+}

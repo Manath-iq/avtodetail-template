@@ -1,0 +1,81 @@
+---
+import { client } from '../config/client';
+import { waLink, genericMessages } from '../lib/wa';
+import OrderSheet from './OrderSheet.astro';
+import Wa from './icons/Wa.astro';
+
+const h1 = client.heroH1Options[client.heroH1Index];
+const wa = waLink(genericMessages.hero);
+---
+
+<section id="top" class="relative overflow-hidden pt-10 pb-16 sm:pt-14 md:pb-24">
+  <div class="paper-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden="true"></div>
+  <div
+    class="pointer-events-none absolute -top-40 right-[-10%] h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-metal)_16%,transparent),transparent_68%)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="shell relative grid12 items-center gap-y-10">
+    <div class="col-span-4 md:col-span-8 lg:col-span-6">
+      <p class="stamp mb-5" data-anim>
+        {client.city} · {client.tagline} · режим {client.workHours.split(',')[0]}
+      </p>
+
+      <h1 class="text-[length:var(--fs-hero)]" data-anim style="--anim-delay:0.06s">
+        {h1}
+      </h1>
+
+      <p
+        class="mt-6 max-w-[46ch] text-[1.0625rem] leading-relaxed text-[var(--color-ink-mute)] sm:text-[1.125rem]"
+        data-anim
+        style="--anim-delay:0.12s"
+      >
+        {client.heroSubhead}
+      </p>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row" data-anim style="--anim-delay:0.18s">
+        <a href="#calc" class="btn btn-primary sm:min-w-[13rem]">
+          {client.heroCtas.primary}
+        </a>
+        <a
+          href={wa}
+          target="_blank"
+          rel="noopener"
+          data-goal="hero_whatsapp_click"
+          class="btn btn-ghost sm:min-w-[13rem]"
+        >
+          <Wa size={18} />
+          {client.heroCtas.secondary}
+        </a>
+      </div>
+
+      <dl
+        class="mt-10 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-dashed border-[var(--color-line)] pt-7 sm:grid-cols-3"
+        data-anim
+        style="--anim-delay:0.24s"
+      >
+        <div>
+          <dt class="stamp">Ответ в переписке</dt>
+          <dd class="data mt-1.5 text-[1.35rem] font-semibold tracking-tight">до 15 мин</dd>
+        </div>
+        <div>
+          <dt class="stamp">Гарантия на работы</dt>
+          <dd class="data mt-1.5 text-[1.35rem] font-semibold tracking-tight">
+            {client.proof.guaranteeDays} дней
+          </dd>
+        </div>
+        <div class="col-span-2 sm:col-span-1">
+          <dt class="stamp">Допработы</dt>
+          <dd class="mt-1.5 text-[0.95rem] leading-snug text-[var(--color-ink-mute)]">
+            согласуем до выполнения, а не по факту
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="col-span-4 md:col-span-8 lg:col-span-6 lg:pl-6">
+      <OrderSheet />
+    </div>
+  </div>
+</section>

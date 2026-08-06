@@ -1,0 +1,25 @@
+---
+import { proofStats } from '../config/client';
+---
+
+<section class="on-dark relative overflow-hidden border-y border-[var(--color-line-dark)]" aria-label="Показатели сервиса">
+  <div class="paper-grid-dark pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+  <div class="shell relative py-9 md:py-11">
+    <ul class="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
+      {
+        proofStats.map((stat, i) => (
+          <li class="flex flex-col gap-1.5" data-anim style={`--anim-delay:${i * 0.05}s`}>
+            <span
+              class="data text-[clamp(1.9rem,3.4vw,2.75rem)] font-semibold leading-none tracking-tight text-white"
+              data-count-to={stat.countTo}
+            >
+              {stat.value}
+            </span>
+            <span class="text-[0.875rem] leading-snug text-white/55">{stat.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

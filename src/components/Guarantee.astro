@@ -1,0 +1,186 @@
+---
+import { client } from '../config/client';
+import { waLink, genericMessages } from '../lib/wa';
+import { withBase } from '../lib/url';
+import SectionHead from './SectionHead.astro';
+
+const docs = [
+  {
+    title: 'Заказ-наряд',
+    text: 'Перечень работ, срок и стоимость по каждой строке. Подписывается до начала работ.',
+  },
+  {
+    title: 'Акт приёма-передачи',
+    text: 'Состояние авто, пробег, комплектность и фотофиксация при приёме и при выдаче.',
+  },
+  {
+    title: 'Согласование допработ',
+    text: 'Отдельное подтверждение в переписке на каждую позицию сверх изначального плана.',
+  },
+  {
+    title: 'Условия гарантии',
+    text: `Срок ${client.proof.guaranteeDays} дней на выполненные работы, порядок обращения и что в гарантию не входит.`,
+  },
+];
+---
+
+<section id="guarantee" class="section">
+  <div class="shell grid12 items-start gap-y-10">
+    <div class="col-span-4 md:col-span-8 lg:col-span-6">
+      <SectionHead
+        no="12"
+        label="Гарантия и документы"
+        title="Работаем по заказ-наряду, а не по устной договорённости"
+        lead="Допработы согласуем до выполнения. По завершении выдаём понятный перечень работ и условий гарантии — с ним можно вернуться и спросить по любой строке."
+      />
+
+      <ul class="mt-8 flex flex-col">
+        {
+          docs.map((d, i) => (
+            <li
+              class="flex gap-4 border-t border-dashed border-[var(--color-line)] py-4 first:border-t-0 first:pt-0"
+              data-anim
+              style={`--anim-delay:${i * 0.06}s`}
+            >
+              <span class="data mt-0.5 shrink-0 text-[0.8rem] text-[var(--color-ink-faint)]">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div>
+                <h3 class="font-[var(--font-display)] text-[1rem] font-semibold tracking-tight">
+                  {d.title}
+                </h3>
+                <p class="mt-1 text-[0.9375rem] leading-relaxed text-[var(--color-ink-mute)]">
+                  {d.text}
+                </p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="mt-7 flex flex-wrap gap-3" data-anim>
+        <a
+          href={waLink(genericMessages.guarantee)}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-primary"
+        >
+          Запросить условия
+        </a>
+        <a href={withBase('privacy')} class="btn btn-ghost">Политика обработки ПДн</a>
+      </div>
+    </div>
+
+    <!-- Бланк со штампом -->
+    <div class="col-span-4 md:col-span-8 lg:col-span-6 lg:pl-6">
+      <div
+        class="card perf-top perf-bottom relative overflow-hidden p-6 sm:p-8"
+        data-anim
+        style="--anim-delay:0.1s"
+      >
+        <div class="paper-grid absolute inset-0 opacity-50" aria-hidden="true"></div>
+
+        <div class="relative">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="stamp">Закрытый наряд</p>
+              <p class="data mt-1 text-[1.05rem] font-semibold tracking-tight">№ 000-241</p>
+            </div>
+            <p class="stamp text-right">
+              {client.legalName}<br />ИНН {client.inn}
+            </p>
+          </div>
+
+          <hr class="rule-dashed my-5" />
+
+          <div class="flex flex-col gap-3">
+            {
+              [
+                ['Работы выполнены в полном объёме', '✓'],
+                ['Допработы согласованы до выполнения', '✓'],
+                ['Снятые детали переданы заказчику', '✓'],
+                ['Условия гарантии переданы', '✓'],
+              ].map(([label, mark]) => (
+                <div class="flex items-baseline justify-between gap-3">
+                  <span class="text-[0.9rem] text-[var(--color-ink-mute)]">{label}</span>
+                  <span class="data text-[0.95rem] font-semibold text-[var(--color-tech)]">
+                    {mark}
+                  </span>
+                </div>
+              ))
+            }
+          </div>
+
+          <hr class="rule-dashed my-5" />
+
+          <div class="flex items-end justify-between gap-6">
+            <div class="flex-1">
+              <p class="stamp">Подпись мастера</p>
+              <svg class="mt-2 h-9 w-full max-w-[9rem]" viewBox="0 0 150 40" fill="none" aria-hidden="true">
+                <path
+                  d="M4 30c14-22 22 8 33-6s16 10 27-4 20 12 33-2 22 6 26 2"
+                  stroke="var(--color-coal)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  opacity="0.65"></path>
+              </svg>
+              <div class="mt-1 border-t border-[var(--color-line)]"></div>
+            </div>
+
+            <!-- Штамп: ставится на финальной фазе скролла -->
+            <div class="stamp-mark relative shrink-0" data-stamp aria-hidden="true">
+              <svg width="112" height="112" viewBox="0 0 112 112" fill="none">
+                <circle cx="56" cy="56" r="50" stroke="var(--color-brake)" stroke-width="2.5" opacity="0.85"></circle>
+                <circle cx="56" cy="56" r="42" stroke="var(--color-brake)" stroke-width="1" opacity="0.55"></circle>
+                <text
+                  x="56"
+                  y="50"
+                  text-anchor="middle"
+                  fill="var(--color-brake)"
+                  font-family="JetBrains Mono, monospace"
+                  font-size="13"
+                  font-weight="700"
+                  letter-spacing="1">НАРЯД</text>
+                <text
+                  x="56"
+                  y="68"
+                  text-anchor="middle"
+                  fill="var(--color-brake)"
+                  font-family="JetBrains Mono, monospace"
+                  font-size="13"
+                  font-weight="700"
+                  letter-spacing="1">ЗАКРЫТ</text>
+                <path d="M22 78h68" stroke="var(--color-brake)" stroke-width="1.5" opacity="0.5"></path>
+              </svg>
+            </div>
+          </div>
+
+          <p class="legal-note mt-5">
+            Образец. Реквизиты и формулировки подставляются из документов конкретного исполнителя.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stamp-mark {
+    opacity: 0;
+    transform: rotate(-16deg) scale(1.35);
+    transform-origin: center;
+  }
+  .stamp-mark[data-stamped] {
+    opacity: 0.9;
+    transform: rotate(-11deg) scale(1);
+    transition:
+      opacity 0.28s ease-out,
+      transform 0.34s cubic-bezier(0.2, 1.4, 0.4, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stamp-mark {
+      opacity: 0.9;
+      transform: rotate(-11deg);
+    }
+  }
+</style>
