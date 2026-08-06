@@ -36,6 +36,10 @@ jobs:
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
+        with:
+          # Включает Pages в настройках репозитория, если он ещё не включён,
+          # чтобы первый деплой не требовал ручного шага в UI.
+          enablement: true
 
       - name: Type check
         run: npx astro check
