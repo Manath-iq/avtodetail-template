@@ -84,8 +84,10 @@ function initLenis() {
    Общее появление блоков
    ───────────────────────────────────────────────────────────── */
 function initReveal() {
+  // Горизонтальный запас в 240px нужен горизонтальным лентам (категории услуг,
+  // отзывы): карточка должна проявиться до того, как её досвайпают в кадр.
   document.querySelectorAll<HTMLElement>('[data-anim]').forEach((el) => {
-    onEnter(el, () => el.classList.add('is-in'), { rootMargin: '0px 0px -8% 0px' });
+    onEnter(el, () => el.classList.add('is-in'), { rootMargin: '0px 240px -8% 240px' });
   });
 }
 
@@ -190,30 +192,6 @@ function initStamp() {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Пин на схеме проезда появляется из-под линии
-   ───────────────────────────────────────────────────────────── */
-function initMapPin() {
-  const pin = document.querySelector<SVGGElement>('[data-map-pin]');
-  const route = document.querySelector<SVGPathElement>('[data-route]');
-  if (!pin || reduced.matches) return;
-
-  gsap.set(pin, { opacity: 0, y: 18 });
-
-  onEnter(pin.ownerSVGElement ?? pin, () => {
-    const tl = gsap.timeline();
-
-    if (route) {
-      const len = route.getTotalLength();
-      gsap.set(route, { strokeDasharray: String(len), strokeDashoffset: len });
-      tl.to(route, { strokeDashoffset: 0, duration: 0.9, ease: 'power1.inOut' });
-      tl.set(route, { strokeDasharray: '9 7', strokeDashoffset: 0 });
-    }
-
-    tl.to(pin, { opacity: 1, y: 0, duration: 0.45, ease: 'back.out(2)' }, '-=0.1');
-  });
-}
-
-/* ─────────────────────────────────────────────────────────────
    Старт
    ───────────────────────────────────────────────────────────── */
 function boot() {
@@ -223,7 +201,6 @@ function boot() {
   initCounters();
   initProcess();
   initStamp();
-  initMapPin();
 }
 
 if (document.readyState === 'loading') {

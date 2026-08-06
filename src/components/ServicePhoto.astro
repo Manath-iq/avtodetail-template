@@ -1,0 +1,42 @@
+---
+import { Picture } from 'astro:assets';
+import lift from '../assets/photos/svc-lift.webp';
+import scanner from '../assets/photos/svc-scanner.webp';
+import polisher from '../assets/photos/svc-polisher.webp';
+import extractor from '../assets/photos/svc-extractor.webp';
+
+/**
+ * Демо-фото категорий услуг: один кадр на две карточки (спецификация, блок 4).
+ *
+ * Ассеты обезличенные — без людей, брендов, текста и номеров (раздел 6).
+ * Под реального клиента файлы в src/assets/photos заменяются на снимки
+ * из шот-листа с теми же именами, разметку трогать не нужно.
+ */
+interface Props {
+  kind: 'lift' | 'scanner' | 'polisher' | 'extractor';
+  class?: string;
+  /** Первый экран не lazy, остальное — lazy (раздел 8, «Медиа»). */
+  eager?: boolean;
+}
+const { kind, class: klass = '', eager = false } = Astro.props;
+
+const sources = { lift, scanner, polisher, extractor };
+const alts: Record<Props['kind'], string> = {
+  lift: 'Автомобиль на двухстоечном подъёмнике в ремзоне сервиса',
+  scanner: 'Диагностический сканер на тележке у открытой двери автомобиля',
+  polisher: 'Полировальная машинка на кузове под лампой контроля ЛКП',
+  extractor: 'Экстрактор и парогенератор при химчистке салона автомобиля',
+};
+---
+
+<Picture
+  src={sources[kind]}
+  alt={alts[kind]}
+  formats={['avif']}
+  fallbackFormat="webp"
+  widths={[320, 640, 960]}
+  sizes="(min-width: 1100px) 320px, (min-width: 640px) 45vw, 92vw"
+  loading={eager ? 'eager' : 'lazy'}
+  decoding={eager ? 'sync' : 'async'}
+  class:list={['h-full w-full object-cover', klass]}
+/>

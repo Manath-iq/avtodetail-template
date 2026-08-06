@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import preact from '@astrojs/preact';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 // Деплой: GitHub Pages, project site.
@@ -13,7 +14,7 @@ export default defineConfig({
   site: SITE,
   base: BASE,
   trailingSlash: 'ignore',
-  integrations: [preact({ compat: false })],
+  integrations: [preact({ compat: false }), sitemap()],
   vite: {
     plugins: [tailwindcss()],
     build: {
