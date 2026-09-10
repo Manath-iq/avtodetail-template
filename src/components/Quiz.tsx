@@ -3,6 +3,7 @@ import { quizQuestions, quizIntro } from '../config/quiz';
 import { resolveQuiz, isComplete, answeredCount, totalQuestions, type QuizAnswers } from '../lib/quiz-engine';
 import { waLink, quizMessage } from '../lib/wa';
 import { reachGoal } from '../lib/metrika';
+import { withBase } from '../lib/url';
 
 /**
  * Секция 5.1. Тап-only: варианта «Далее» нет, ответ подсвечивается немедленно,
@@ -200,14 +201,26 @@ export default function Quiz() {
                   </ul>
                 </div>
 
-                <a href={wa} target="_blank" rel="noopener" class="btn btn-primary w-full">
+                <a
+                  href={wa}
+                  target="_blank"
+                  rel="noopener"
+                  data-goal="quiz_whatsapp_click"
+                  class="btn btn-primary w-full"
+                >
                   Открыть WhatsApp
                 </a>
 
                 <p class="legal-note !text-white/38">
-                  Нажимая кнопку, вы соглашаетесь с Политикой обработки персональных данных и
-                  Согласием на обработку персональных данных. Ориентир цены не является офертой и
-                  уточняется после осмотра.
+                  Нажимая кнопку, вы соглашаетесь с{' '}
+                  <a href={withBase('privacy')} class="legal-link">
+                    Политикой обработки персональных данных
+                  </a>{' '}
+                  и{' '}
+                  <a href={withBase('consent')} class="legal-link">
+                    Согласием на обработку персональных данных
+                  </a>
+                  . Ориентир цены не является офертой и уточняется после осмотра.
                 </p>
               </div>
             )}

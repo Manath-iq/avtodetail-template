@@ -411,6 +411,22 @@
     color: rgba(255, 255, 255, 0.45);
   }
 
+  /* Согласие даётся в момент нажатия кнопки, значит документы должны
+     открываться отсюда, а не только из подвала. */
+  .legal-link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+  .legal-link:hover {
+    color: var(--color-ink);
+  }
+  .on-dark .legal-link:hover {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
   .scroll-x {
     overflow-x: auto;
     overscroll-behavior-x: contain;

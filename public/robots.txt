@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-
-# Карта сайта генерируется @astrojs/sitemap при сборке.
-# При переезде на домен клиента поменяйте хост в этой строке.
-Sitemap: https://manath-iq.github.io/avtodetail-template/sitemap-index.xml

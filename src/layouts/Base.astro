@@ -35,7 +35,8 @@ const ogImage = new URL(withBase('og.png'), Astro.site ?? 'https://example.com')
     <meta name="format-detection" content="telephone=no" />
 
     <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
-    <link rel="apple-touch-icon" href={withBase('favicon.svg')} />
+    {/* iOS не рендерит SVG в apple-touch-icon — нужен растр 180×180 (npm run icons). */}
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase('apple-touch-icon.png')} />
 
     <Fonts />
 

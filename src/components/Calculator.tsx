@@ -3,6 +3,7 @@ import { calcServices, calcBodies, calcConditions, calcAddons } from '../config/
 import { calculate, calcDefaults, type CalcState } from '../lib/calc';
 import { waLink, calcMessage } from '../lib/wa';
 import { reachGoal } from '../lib/metrika';
+import { withBase } from '../lib/url';
 
 /**
  * Секция 5.2. Пересчёт мгновенный, без submit и без перезагрузки.
@@ -16,7 +17,9 @@ export default function Calculator() {
   function markTouched() {
     if (!touchedRef.current) {
       touchedRef.current = true;
-      reachGoal('calc_complete');
+      // Первое касание — это старт, а не готовый расчёт: calc_complete
+      // остаётся за кнопкой отправки, иначе цель считает две разные вещи.
+      reachGoal('calc_start');
     }
   }
 
@@ -193,8 +196,15 @@ export default function Calculator() {
 
             <p class="legal-note mt-3">
               Информация о стоимости носит информационный характер и может быть уточнена после
-              осмотра автомобиля. Нажимая кнопку, вы соглашаетесь с Политикой обработки персональных
-              данных и Согласием на обработку персональных данных.
+              осмотра автомобиля. Нажимая кнопку, вы соглашаетесь с{' '}
+              <a href={withBase('privacy')} class="legal-link">
+                Политикой обработки персональных данных
+              </a>{' '}
+              и{' '}
+              <a href={withBase('consent')} class="legal-link">
+                Согласием на обработку персональных данных
+              </a>
+              .
             </p>
           </div>
         </div>

@@ -1,6 +1,7 @@
 ---
 import { client } from '../config/client';
 import { waLink, genericMessages } from '../lib/wa';
+import { withBase } from '../lib/url';
 import Wa from './icons/Wa.astro';
 ---
 
@@ -50,7 +51,7 @@ import Wa from './icons/Wa.astro';
           href={waLink(genericMessages.final)}
           target="_blank"
           rel="noopener"
-          data-goal="footer_whatsapp_click"
+          data-goal="final_whatsapp_click"
           class="btn btn-primary sm:min-w-[13rem]"
         >
           <Wa size={18} />
@@ -60,8 +61,9 @@ import Wa from './icons/Wa.astro';
       </div>
 
       <p class="legal-note mt-5 max-w-[46ch]" data-anim style="--anim-delay:0.2s">
-        Нажимая кнопку, вы соглашаетесь с Политикой обработки персональных данных и Согласием на
-        обработку персональных данных.
+        Нажимая кнопку, вы соглашаетесь с <a href={withBase('privacy')} class="legal-link">Политикой
+        обработки персональных данных</a> и <a href={withBase('consent')} class="legal-link"
+        >Согласием на обработку персональных данных</a>.
       </p>
     </div>
   </div>

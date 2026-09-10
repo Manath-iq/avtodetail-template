@@ -41,6 +41,7 @@ const spots = [
             <p class="stamp">Телефон</p>
             <a
               href={`tel:${client.phoneHref}`}
+          data-goal="phone_click"
               class="data tap mt-2 inline-flex items-center gap-2 text-[1.05rem] font-semibold tracking-tight"
             >
               <Phone size={17} />
@@ -57,7 +58,8 @@ const spots = [
               >
                 Открыть маршрут
               </a>
-              <a href={`tel:${client.phoneHref}`} class="btn btn-ghost flex-1">Позвонить</a>
+              <a href={`tel:${client.phoneHref}`}
+          data-goal="phone_click" class="btn btn-ghost flex-1">Позвонить</a>
             </div>
           </div>
         </div>
@@ -71,13 +73,26 @@ const spots = [
           style="--anim-delay:0.08s"
         >
           <div class="relative aspect-[16/10] w-full overflow-hidden bg-[var(--color-graphite)]">
-            <LocationPhoto />
-            <div
-              class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(17,20,24,0.5),transparent_50%)]"
-              aria-hidden="true"
-            >
-            </div>
-            <p class="stamp absolute bottom-3 left-4 !text-white/60">Вход и парковка</p>
+            {
+              client.mapEmbedUrl ? (
+                <iframe
+                  src={client.mapEmbedUrl}
+                  title={`Карта проезда: ${client.address}`}
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  class="h-full w-full border-0"
+                />
+              ) : (
+                <>
+                  <LocationPhoto />
+                  <div
+                    class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(17,20,24,0.5),transparent_50%)]"
+                    aria-hidden="true"
+                  />
+                  <p class="stamp absolute bottom-3 left-4 !text-white/60">Вход и парковка</p>
+                </>
+              )
+            }
           </div>
 
           <ul class="grid gap-x-5 gap-y-3.5 border-t border-dashed border-[var(--color-line)] p-5 sm:grid-cols-2">
@@ -94,10 +109,14 @@ const spots = [
           </ul>
         </div>
 
-        <p class="legal-note mt-3" data-anim>
-          Демонстрационный кадр. В сборке под клиента здесь стоит фото его фасада; маршрут
-          открывается в картах по кнопке выше.
-        </p>
+        {
+          !client.mapEmbedUrl && (
+            <p class="legal-note mt-3" data-anim>
+              Демонстрационный кадр. В сборке под клиента здесь стоит фото его фасада или карта
+              (client.mapEmbedUrl); маршрут открывается в картах по кнопке выше.
+            </p>
+          )
+        }
       </div>
     </div>
   </div>

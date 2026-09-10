@@ -13,7 +13,8 @@ import Phone from './icons/Phone.astro';
   data-mobile-bar
 >
   <div class="flex gap-2 px-3 py-2.5">
-    <a href={`tel:${client.phoneHref}`} class="btn btn-ghost !min-h-12 flex-1 !text-[0.875rem]">
+    <a href={`tel:${client.phoneHref}`}
+          data-goal="phone_click" class="btn btn-ghost !min-h-12 flex-1 !text-[0.875rem]">
       <Phone size={17} />
       Позвонить
     </a>
@@ -21,7 +22,7 @@ import Phone from './icons/Phone.astro';
       href={waLink(genericMessages.hero)}
       target="_blank"
       rel="noopener"
-      data-goal="footer_whatsapp_click"
+      data-goal="mobile_whatsapp_click"
       class="btn btn-primary !min-h-12 flex-[1.3] !text-[0.875rem]"
     >
       <Wa size={17} />

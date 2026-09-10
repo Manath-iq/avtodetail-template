@@ -41,6 +41,7 @@ npm run dev
 | `npm run build`   | `astro check` + продакшен-сборка в `dist/`                    |
 | `npm run preview` | локальный просмотр собранного `dist/`                         |
 | `npm run og`      | пересобрать `public/og.png` из скрипта `scripts/make-og.mjs`   |
+| `npm run icons`   | пересобрать `public/apple-touch-icon.png` из `public/favicon.svg` |
 
 ---
 
@@ -128,14 +129,21 @@ final_price = base_service_price × body_coef × condition_coef + addon_sum
 Демо-кадры лежат в `src/assets/photos` и подключены через `astro:assets`
 (`<Picture>`: AVIF + WebP-фолбэк, lazy, явные размеры):
 
-| Файл                 | Где стоит                   | Компонент              |
-| -------------------- | --------------------------- | ---------------------- |
-| `svc-lift.webp`      | ТО, подвеска, шиномонтаж    | `ServicePhoto.astro`   |
-| `svc-scanner.webp`   | диагностика, электрика      | `ServicePhoto.astro`   |
-| `svc-polisher.webp`  | детейлинг кузова, керамика  | `ServicePhoto.astro`   |
-| `svc-extractor.webp` | химчистка салона            | `ServicePhoto.astro`   |
-| `loc-exterior.webp`  | блок «вживую», поз. 08      | `LocationPhoto.astro`  |
-| `eq-tools.webp`      | баннер оборудования, поз. 09| `EquipmentPhoto.astro` |
+| Файл                 | Где стоит                    | Компонент              |
+| -------------------- | ---------------------------- | ---------------------- |
+| `svc-scanner.webp`   | диагностика                  | `ServicePhoto.astro`   |
+| `svc-service.webp`   | ТО и расходники              | `ServicePhoto.astro`   |
+| `svc-lift.webp`      | подвеска и тормоза           | `ServicePhoto.astro`   |
+| `svc-electrics.webp` | электрика и ошибки           | `ServicePhoto.astro`   |
+| `svc-tires.webp`     | шиномонтаж                   | `ServicePhoto.astro`   |
+| `svc-polisher.webp`  | детейлинг кузова             | `ServicePhoto.astro`   |
+| `svc-extractor.webp` | химчистка салона             | `ServicePhoto.astro`   |
+| `svc-ceramic.webp`   | керамика и защита            | `ServicePhoto.astro`   |
+| `loc-exterior.webp`  | блок «вживую», поз. 08       | `LocationPhoto.astro`  |
+| `eq-tools.webp`      | баннер оборудования, поз. 09 | `EquipmentPhoto.astro` |
+
+Мотив на карточку — свой. Раньше четыре кадра делились на восемь карточек, и в одном
+ряду сетки оказывались две-три одинаковые картинки: сайт читался как шаблон.
 
 Все кадры обезличены: без людей, брендов, вывесок, читаемого текста и госномеров —
 этого требует раздел 6 спецификации, и это же снимает риск по разделу 7.
@@ -156,12 +164,19 @@ final_price = base_service_price × body_coef × condition_coef + addon_sum
 - **Формы без backend.** POST-запросов нет вообще: submit собирает текст и открывает `wa.me`.
   Данные не хранятся на стороне сайта — это отдельно проговорено в согласии на ПДн.
 - **Юридические оговорки.** Под каждым местом со стоимостью — оговорка об информационном
-  характере; под кнопками — согласие на обработку ПДн; в футере — «не является публичной офертой».
+  характере; под кнопками — согласие на обработку ПДн, и оба документа открываются
+  ссылкой прямо из текста согласия, а не только из футера; в футере — «не является
+  публичной офертой».
 - **Формулировки.** На странице нет «быстро», «честно», «лучшие цены», «100% без доплат» —
   каждая выгода привязана к сроку, вилке цены или конкретному документу.
 - **schema.org:** `AutoRepair` + `AutomotiveBusiness`, `OfferCatalog` из `Service`, `FAQPage`.
-- **Цели Метрики:** `hero_whatsapp_click`, `quiz_start`, `quiz_complete`, `calc_complete`,
-  `map_open`, `footer_whatsapp_click`. Вызовы — no-op, пока `metrikaId` пуст.
+- **Цели Метрики.** Размечена каждая точка конверсии, а не часть: `hero_whatsapp_click`,
+  `service_whatsapp_click`, `quiz_start` / `quiz_complete` / `quiz_whatsapp_click`,
+  `calc_start` / `calc_complete`, `process_whatsapp_click`, `pricing_whatsapp_click`,
+  `guarantee_whatsapp_click`, `faq_whatsapp_click`, `final_whatsapp_click`,
+  `footer_whatsapp_click`, `mobile_whatsapp_click`, `map_open`, `phone_click`.
+  Разметка декларативная — атрибут `data-goal` на ссылке, слушатель один на документ.
+  Вызовы — no-op, пока `metrikaId` пуст.
 - **Доступность:** навигация с клавиатуры, `aria-live` у квиза и калькулятора, тап-таргеты
   от 44px, контраст AA, полноценные состояния без hover.
 - **`prefers-reduced-motion`:** Lenis не поднимается, скролл-анимации выключены, остаётся

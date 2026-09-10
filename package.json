@@ -11,6 +11,7 @@
     "build:ci": "astro build",
     "preview": "astro preview",
     "og": "node scripts/make-og.mjs",
+    "icons": "node scripts/make-icons.mjs",
     "astro": "astro"
   },
   "dependencies": {
