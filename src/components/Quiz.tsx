@@ -213,11 +213,11 @@ export default function Quiz() {
 
                 <p class="legal-note !text-white/38">
                   Нажимая кнопку, вы соглашаетесь с{' '}
-                  <a href={withBase('privacy')} class="legal-link">
+                  <a href={withBase('privacy/')} class="legal-link">
                     Политикой обработки персональных данных
                   </a>{' '}
                   и{' '}
-                  <a href={withBase('consent')} class="legal-link">
+                  <a href={withBase('consent/')} class="legal-link">
                     Согласием на обработку персональных данных
                   </a>
                   . Ориентир цены не является офертой и уточняется после осмотра.

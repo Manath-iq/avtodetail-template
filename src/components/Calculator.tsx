@@ -197,11 +197,11 @@ export default function Calculator() {
             <p class="legal-note mt-3">
               Информация о стоимости носит информационный характер и может быть уточнена после
               осмотра автомобиля. Нажимая кнопку, вы соглашаетесь с{' '}
-              <a href={withBase('privacy')} class="legal-link">
+              <a href={withBase('privacy/')} class="legal-link">
                 Политикой обработки персональных данных
               </a>{' '}
               и{' '}
-              <a href={withBase('consent')} class="legal-link">
+              <a href={withBase('consent/')} class="legal-link">
                 Согласием на обработку персональных данных
               </a>
               .
