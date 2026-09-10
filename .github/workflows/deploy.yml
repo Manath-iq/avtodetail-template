@@ -52,9 +52,19 @@ jobs:
         env:
           # Astro получает site/base от Pages — при переезде на домен клиента
           # достаточно поменять настройки Pages, а не код.
+          # ВАЖНО: после смены домена сайт нужно пересобрать. Артефакт хранит
+          # абсолютные пути к ассетам, и сборка со старым base отдаёт на новом
+          # домене 404 на весь CSS и JS — страница остаётся голым HTML.
           SITE: ${{ steps.pages.outputs.origin }}
           BASE: ${{ steps.pages.outputs.base_path }}
-        run: npm run build:ci
+        run: |
+          # Пока в настройках Pages не включено «Enforce HTTPS», origin приходит
+          # по http, и в canonical, og:image и sitemap попал бы http-адрес.
+          # Нормализуем схему, чтобы не пересобирать сайт после выпуска
+          # сертификата: Pages в итоге всё равно отдаёт домен по https.
+          export SITE="${SITE/#http:/https:}"
+          echo "SITE=$SITE BASE=${BASE:-/}"
+          npm run build:ci
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
