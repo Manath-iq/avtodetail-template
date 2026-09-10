@@ -3,7 +3,8 @@ import Calculator from './Calculator';
 import SectionHead from './SectionHead.astro';
 ---
 
-<section id="calc" class="section relative overflow-hidden">
+<!-- Без overflow-hidden: он ломал sticky у панели «Ваш ориентир». -->
+<section id="calc" class="section relative">
   <div class="paper-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true"></div>
 
   <div class="shell relative">

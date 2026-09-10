@@ -4,28 +4,39 @@ import lift from '../assets/photos/svc-lift.webp';
 import scanner from '../assets/photos/svc-scanner.webp';
 import polisher from '../assets/photos/svc-polisher.webp';
 import extractor from '../assets/photos/svc-extractor.webp';
+import service from '../assets/photos/svc-service.webp';
+import electrics from '../assets/photos/svc-electrics.webp';
+import tires from '../assets/photos/svc-tires.webp';
+import ceramic from '../assets/photos/svc-ceramic.webp';
 
 /**
- * Демо-фото категорий услуг: один кадр на две карточки (спецификация, блок 4).
+ * Демо-фото категорий услуг: свой кадр на каждую карточку.
+ *
+ * Раньше четыре мотива делились на восемь карточек, и в одном ряду сетки
+ * оказывались две-три одинаковые картинки — сайт читался как шаблон.
  *
  * Ассеты обезличенные — без людей, брендов, текста и номеров (раздел 6).
  * Под реального клиента файлы в src/assets/photos заменяются на снимки
  * из шот-листа с теми же именами, разметку трогать не нужно.
  */
 interface Props {
-  kind: 'lift' | 'scanner' | 'polisher' | 'extractor';
+  kind: 'lift' | 'scanner' | 'polisher' | 'extractor' | 'service' | 'electrics' | 'tires' | 'ceramic';
   class?: string;
   /** Первый экран не lazy, остальное — lazy (раздел 8, «Медиа»). */
   eager?: boolean;
 }
 const { kind, class: klass = '', eager = false } = Astro.props;
 
-const sources = { lift, scanner, polisher, extractor };
+const sources = { lift, scanner, polisher, extractor, service, electrics, tires, ceramic };
 const alts: Record<Props['kind'], string> = {
   lift: 'Автомобиль на двухстоечном подъёмнике в ремзоне сервиса',
   scanner: 'Диагностический сканер на тележке у открытой двери автомобиля',
   polisher: 'Полировальная машинка на кузове под лампой контроля ЛКП',
   extractor: 'Экстрактор и парогенератор при химчистке салона автомобиля',
+  service: 'Масляный фильтр, канистра масла и сливной поддон на верстаке',
+  electrics: 'Открытый блок предохранителей и щупы мультиметра на клемме',
+  tires: 'Колесо на шиномонтажном станке, балансировочный стенд позади',
+  ceramic: 'Аппликатор и флакон защитного состава на полированном кузове',
 };
 ---
 

@@ -2,7 +2,8 @@ import type { ServiceCard } from './types';
 
 /**
  * Секция 4 «Категории услуг».
- * Ассеты: 1 визуальный мотив на 2 карточки (подъёмник, сканер, полировальная, экстрактор).
+ * Ассеты: свой визуальный мотив на каждую карточку — одинаковые кадры
+ * в соседних ячейках сетки выдавали шаблон.
  */
 export const services: ServiceCard[] = [
   {
@@ -21,7 +22,7 @@ export const services: ServiceCard[] = [
       'Масло, фильтры, свечи, жидкости по регламенту вашего пробега. Показываем снятые расходники после работы.',
     fromPrice: 3200,
     durationHint: '1,5–3 ч',
-    visual: 'lift',
+    visual: 'service',
   },
   {
     id: 'suspension',
@@ -39,7 +40,7 @@ export const services: ServiceCard[] = [
       'Ищем обрыв, замыкание и просадку питания по схеме. Чиним причину, а не сбрасываем ошибку на приборке.',
     fromPrice: 1800,
     durationHint: '1–4 ч',
-    visual: 'scanner',
+    visual: 'electrics',
   },
   {
     id: 'tires',
@@ -48,7 +49,7 @@ export const services: ServiceCard[] = [
       'Сезонная переобувка, балансировка, ремонт проколов и боковых порезов. Хранение комплекта по договору.',
     fromPrice: 2200,
     durationHint: '40–60 мин',
-    visual: 'lift',
+    visual: 'tires',
   },
   {
     id: 'detailing',
@@ -75,6 +76,6 @@ export const services: ServiceCard[] = [
       'Керамический состав или полиуретан на подготовленный кузов. Пишем в заказ-наряд срок обслуживания покрытия.',
     fromPrice: 21000,
     durationHint: 'от 2 дней',
-    visual: 'polisher',
+    visual: 'ceramic',
   },
 ];

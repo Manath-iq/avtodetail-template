@@ -49,9 +49,10 @@ import SectionHead from './SectionHead.astro';
 
             <blockquote class="text-[0.9375rem] leading-relaxed">«{r.text}»</blockquote>
 
-            <div class="mt-auto border-t border-dashed border-[var(--color-line)] pt-3">
-              <p class="stamp !normal-case !tracking-normal">{r.author}</p>
-              {r.date && <p class="stamp mt-1 !text-[0.65rem]">{r.date}</p>}
+            <div class="mt-auto flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-dashed border-[var(--color-line)] pt-3">
+              <span class="stamp">Работы</span>
+              <span class="text-[0.8125rem] font-medium text-[var(--color-ink-mute)]">{r.author}</span>
+              {r.date && <span class="stamp ml-auto !text-[0.65rem]">{r.date}</span>}
             </div>
           </article>
         ))

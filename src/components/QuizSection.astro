@@ -2,12 +2,15 @@
 import Quiz from './Quiz';
 ---
 
-<section id="quiz" class="on-dark section relative overflow-hidden">
-  <div class="paper-grid-dark pointer-events-none absolute inset-0" aria-hidden="true"></div>
-  <div
-    class="pointer-events-none absolute -left-32 top-1/3 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-tech)_14%,transparent),transparent_70%)]"
-    aria-hidden="true"
-  >
+<!-- overflow-hidden держится на слое декора, а не на секции: на секции он
+     превращал её в клип-контекст и ломал position: sticky у панели результата. -->
+<section id="quiz" class="on-dark section relative">
+  <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div class="paper-grid-dark absolute inset-0"></div>
+    <div
+      class="absolute -left-32 top-1/3 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-tech)_14%,transparent),transparent_70%)]"
+    >
+    </div>
   </div>
 
   <div class="shell relative">

@@ -27,7 +27,7 @@ export type ServiceCard = {
   fromPrice?: number;
   durationHint?: string;
   /** Ключ визуального мотива карточки: lift | scanner | polisher | extractor */
-  visual: 'lift' | 'scanner' | 'polisher' | 'extractor';
+  visual: 'lift' | 'scanner' | 'polisher' | 'extractor' | 'service' | 'electrics' | 'tires' | 'ceramic';
 };
 
 export type PricingConfig = {
